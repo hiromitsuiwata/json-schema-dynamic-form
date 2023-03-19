@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 
-import { QuestionService } from './question.service';
+import { QuestionServiceMock } from './question-service-mock.service';
 import { QuestionBase } from './question-base';
 import { Observable } from 'rxjs';
+import { QuestionServiceBase } from './question-service-base.service';
+import { QuestionService } from './question-service.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +14,12 @@ import { Observable } from 'rxjs';
       <app-dynamic-form [questions]="questions$ | async"></app-dynamic-form>
     </div>
   `,
-  providers:  [QuestionService]
+  providers: [{ provide: QuestionServiceBase, useClass: QuestionService }]
 })
 export class AppComponent {
   questions$: Observable<QuestionBase<any>[]>;
 
-  constructor(service: QuestionService) {
+  constructor(service: QuestionServiceBase) {
     this.questions$ = service.getQuestions();
   }
 }

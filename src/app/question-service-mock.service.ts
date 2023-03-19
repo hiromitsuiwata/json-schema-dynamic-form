@@ -4,9 +4,10 @@ import { DropdownQuestion } from './question-dropdown';
 import { QuestionBase } from './question-base';
 import { TextboxQuestion } from './question-textbox';
 import { Observable, of } from 'rxjs';
+import { QuestionServiceBase } from './question-service-base.service';
 
 @Injectable()
-export class QuestionService {
+export class QuestionServiceMock extends QuestionServiceBase {
 
   // TODO: get from a remote source of question metadata
   getQuestions(): Observable<QuestionBase<string>[]> {
