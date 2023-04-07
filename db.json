@@ -4,7 +4,7 @@
       "class": "TextboxQuestion",
       "key": "firstName",
       "label": "First Name",
-      "defultValue": "John",
+      "defaultValue": "John",
       "required": true,
       "order": 1
     },
@@ -12,7 +12,7 @@
       "class": "TextboxQuestion",
       "key": "lastName",
       "label": "Last Name",
-      "defultValue": "Doe",
+      "defaultValue": "Doe",
       "required": true,
       "order": 2
     },
