@@ -11,8 +11,8 @@ import { QuestionService } from './question-service.service';
   template: `
     <div>
       <h2>Job Application for Heroes</h2>
-      <div *ngIf="questions | async as state">
-        <app-dynamic-form [questions]="state"/>
+      <div *ngIf="questions | async as resolvedQuestions">
+        <app-dynamic-form [questions]="resolvedQuestions"/>
       </div>
     </div>
   `,
