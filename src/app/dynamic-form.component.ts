@@ -7,7 +7,7 @@ import { QuestionControlService } from './question-control.service';
 @Component({
   selector: 'app-dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  providers: [ QuestionControlService ]
+  providers: [QuestionControlService]
 })
 export class DynamicFormComponent implements OnInit {
 
@@ -15,7 +15,7 @@ export class DynamicFormComponent implements OnInit {
   form!: FormGroup;
   payLoad = '';
 
-  constructor(private qcs: QuestionControlService) {}
+  constructor(private qcs: QuestionControlService) { }
 
   ngOnInit() {
     this.form = this.qcs.toFormGroup(this.questions as QuestionBase<string>[]);

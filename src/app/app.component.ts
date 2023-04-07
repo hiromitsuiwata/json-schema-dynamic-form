@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { QuestionServiceMock } from './question-service-mock.service';
 import { QuestionBase } from './question-base';
@@ -11,7 +11,9 @@ import { QuestionService } from './question-service.service';
   template: `
     <div>
       <h2>Job Application for Heroes</h2>
-      <app-dynamic-form [questions]="questions | async"></app-dynamic-form>
+      <div *ngIf="questions | async as state">
+        <app-dynamic-form [questions]="state"/>
+      </div>
     </div>
   `,
   providers: [{ provide: QuestionServiceBase, useClass: QuestionService }]
@@ -21,6 +23,5 @@ export class AppComponent {
 
   constructor(service: QuestionServiceBase) {
     this.questions = service.getQuestions();
-    // this.questions.subscribe(qs => { console.log(qs.length) });
   }
 }
