@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { DropdownQuestion } from './question-dropdown';
 import { QuestionBase } from './question-base';
 import { TextboxQuestion } from './question-textbox';
-import { map, mergeMap, Observable, of, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { QuestionServiceBase } from './question-service-base.service';
 
 @Injectable()
@@ -16,35 +16,39 @@ export class QuestionService extends QuestionServiceBase {
    *
    * @returns
    */
-  getQuestions(): Observable<QuestionBase<string>[]> {
+  getQuestions(url: string): Observable<QuestionBase<string>[]> {
 
-    const o = this.http.get<any[]>('http://localhost:3000/questions');
+    const o = this.http.get<any>(url);
 
-    return o.pipe(map((array: any[]) => {
+    const result = o.pipe(map((content: any) => {
       const questions: QuestionBase<string>[] = [];
-      array.forEach((elem: any) => {
+      const properties = content['properties'];
 
-        console.log(elem);
+      Object.keys(properties).forEach((key: string) => {
+
+        const value = properties[key];
+
+        console.log(key + ' -> ' + value);
 
         let instance;
-
-        switch (elem.class) {
-          case 'TextboxQuestion':
+        switch (value.type) {
+          case 'string':
             instance = new TextboxQuestion({
-              key: elem.key,
-              label: elem.label,
-              value: elem.defaultValue,
-              required: elem.required,
-              order: elem.order
+              key: key,
+              label: value.label,
+              value: value.defaultValue,
+              required: value.required,
+              type: value.htmlType,
+              order: value.order
             });
             questions.push(instance);
             break;
-          case 'DropdownQuestion':
+          case 'options':
             instance = new DropdownQuestion({
-              key: elem.key,
-              label: elem.label,
-              options: elem.options,
-              order: elem.order
+              key: key,
+              label: value.label,
+              options: value.options,
+              order: value.order
             });
             questions.push(instance);
             break;
@@ -53,18 +57,9 @@ export class QuestionService extends QuestionServiceBase {
             break;
         }
       });
-
-      return this.sort(questions);
+      return questions;
     }));
-  }
 
-  /**
-   * ソートする
-   *
-   * @param questions
-   * @returns
-   */
-  sort(questions: QuestionBase<string>[]): QuestionBase<string>[] {
-    return questions.sort((a, b) => a.order - b.order);
+    return result;
   }
 }

@@ -3,5 +3,5 @@ import { QuestionBase } from "./question-base";
 
 
 export abstract class QuestionServiceBase {
-  abstract getQuestions(): Observable<QuestionBase<string>[]>;
+  abstract getQuestions(url: string): Observable<QuestionBase<string>[]>;
 }

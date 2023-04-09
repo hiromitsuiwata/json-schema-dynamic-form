@@ -11,7 +11,10 @@ import { QuestionService } from './question-service.service';
   template: `
     <div>
       <h2>Job Application for Heroes</h2>
-      <div *ngIf="questions | async as resolvedQuestions">
+      <div *ngIf="questions1 | async as resolvedQuestions">
+        <app-dynamic-form [questions]="resolvedQuestions"/>
+      </div>
+      <div *ngIf="questions2 | async as resolvedQuestions">
         <app-dynamic-form [questions]="resolvedQuestions"/>
       </div>
     </div>
@@ -19,9 +22,12 @@ import { QuestionService } from './question-service.service';
   providers: [{ provide: QuestionServiceBase, useClass: QuestionService }]
 })
 export class AppComponent {
-  questions: Observable<QuestionBase<any>[]>;
+  questions1: Observable<QuestionBase<any>[]>;
+  questions2: Observable<QuestionBase<any>[]>;
+
 
   constructor(service: QuestionServiceBase) {
-    this.questions = service.getQuestions();
+    this.questions1 = service.getQuestions('http://localhost:3000/questions');
+    this.questions2 = service.getQuestions('http://localhost:3000/address');
   }
 }
